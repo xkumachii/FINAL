@@ -1,19 +1,43 @@
 const express = require("express");
-const mysql = require("mysql");
+const mysql   = require("mysql");
+const sha256 = require("sha256");
+const session = require('express-session');
+
+
 const app = express();
-
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.use(express.static("public")); //folder for images, css, js
+app.use('/public', express.static('public'));
+app.use(express.urlencoded()); //use to parse data sent using the POST method
+app.use(session({ secret: 'any word', cookie: { maxAge: 60000 }}))
 
+// login username is still admin / password is secret
 
+app.get("/login", function(req, res){
+   res.render("login");
+});
 
+app.post("/loginProcess", function(req, res) {
+    
+    if ( req.body.username == "admin" && sha256(req.body.password) == "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b") {
+       req.session.authenticated = true;
+       res.send({"loginSuccess":true});
+    } else {
+       res.send(false);
+    }
+})
+    
 
-
-
-
-
-
-
+app.get("/admin", async function(req, res){
+   console.log("authenticated: ", req.session.authenticated);    
+   if (req.session.authenticated) { //if user hasn't authenticated, sending them to login screen
+     let movieList = await getMovieList();  
+       //console.log(authorList);
+       res.render("adminPage", {"movieList":movieList});  
+   }  else { 
+       res.render("login"); 
+   }
+});
 //==========================================================
 //============ TEST CONNECTION TO DATABASE =================
 //==========================================================
@@ -44,7 +68,43 @@ app.get("/dbTest", function(req, res){
 });//dbTest
 
 
+
+
+
+
+
 //Functions
+
+
+//MOVIELIST
+function getMovieList(){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT movieName, description 
+                        FROM p_movie
+                        ORDER BY movieName`;
+        
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//MOVIELIST
+
+
+
+
 function dbConnection(){
 
    let conn = mysql.createConnection({
