@@ -3,20 +3,36 @@
     <head>
         <title> Admin</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
 
     </head>
     <body>
         
-        <!--<script>-->
-        <!--    $(document).ready( function() {-->
-        <!--        $(".removeAuthor").on("click", function(event) {-->
-        <!--            if(confirm("Delete Author?") == false) {-->
-        <!--                event.preventDefault();-->
-        <!--            }-->
-        <!--        })-->
-        <!--    })-->
-        <!--</script>-->
+        <script>
+            $(document).ready( function() {
+                $("#movies").hide();
+                
+                $("#movieInfo").on("click", function() {
+                    if($("#movies").is(":hidden")) {
+                        $("#movies").show();
+                    } else {
+                        $("#movies").hide();
+
+                    }
+
+                    
+                    });
+                    
+                $("#directorInfo").on("click", function() {
+
+                    });
+                    
+                $("#pricingInfo").on("click", function() {
+
+                    });
+
+                });
+        
+        </script>
         
         <h1> Admin Section </h1>
 
@@ -24,20 +40,16 @@
             <button id="logOut">Log Out</button>
         </form>
         
-        <!--<form action="/addAuthor">-->
-        <!--  <button> Add New Author </button> -->
-        <!--</form>-->
-        
-        <h3>Movies</h3>
-        
-        <% movieList.forEach(function(movie){  %>
-        
-        
-        
-            <%= movie.movieName %> <br> <%=movie.description %> <br><br>
-        
-        
-        <% }) %>
+        <button id ="movieInfo">Movie Info</button>
+        <button id ="directorInfo">Director Info</button>
+        <button id ="pricingInfo">Pricing Info</button>
+
+        <div id="movies">
+            <% movieList.forEach(function(movie){  %>
+                <%= movie.movieName %> <br> <%= movie.description %> <br><br>
+            <% }) %>
+
+        </div>
         
     </body>
 </html>
