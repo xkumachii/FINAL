@@ -13,6 +13,13 @@ app.use(session({ secret: 'any word', cookie: { maxAge: 60000 }}))
 
 // login username is still admin / password is secret
 
+// this is where the movies are stored -- populate movie ids
+var CART = [];
+
+app.get("/", function(req, res){
+   res.render("index");
+});
+
 app.get("/login", function(req, res){
    res.render("login");
 });
@@ -26,6 +33,14 @@ app.post("/loginProcess", function(req, res) {
        res.send(false);
     }
 })
+
+app.get("/cart", function(req, res){
+   res.send("penis");
+});
+    
+app.get("/about", function(req, res){
+   res.send("buy movies and stuff");
+});
     
 
 app.get("/admin", async function(req, res){
