@@ -69,10 +69,6 @@ app.get("/dbTest", function(req, res){
 
 
 
-
-
-
-
 //Functions
 
 
@@ -86,9 +82,12 @@ function getMovieList(){
            if (err) throw err;
            console.log("Connected!");
         
-           let sql = `SELECT movieName, description 
-                        FROM p_movie
-                        ORDER BY movieName`;
+      let sql = `SELECT movieName, description, firstName, lastName, genreName, ratedName, image
+                FROM p_movie a, p_director b, p_genre c, p_rated d 
+                WHERE a.directorId = b.directorId and a.genreId = c.genreId and a.ratedId = d.ratedId`;
+
+
+                        
         
            conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
