@@ -36,7 +36,7 @@ app.post("/updateMovie", async function(req, res){
   let rows = await updateMovie(req.body);
   
   let movieInfo = req.body;
-  console.log("rows" + rows);
+//   console.log("rows" + rows);
   let message = "Movie WAS NOT updated!";
   if (rows.affectedRows > 0) {
       message= "Movie successfully updated!";
@@ -133,7 +133,7 @@ app.get("/about", function(req, res){
     
 
 app.get("/admin", async function(req, res){
-   console.log("authenticated: ", req.session.authenticated);    
+//   console.log("authenticated: ", req.session.authenticated);    
    if (req.session.authenticated) { //if user hasn't authenticated, sending them to login screen
      let movieList = await getMovieList();  
      let genreList = await getGenreList();
@@ -195,7 +195,7 @@ function getMovieInfo(movieId){
               if (err) throw err;
               //res.send(rows);
               conn.end();
-              resolve(rows[0]); //Query returns only ONE record
+              resolve(rows); //Query returns only ONE record
            });
         
         });//connect
@@ -229,7 +229,7 @@ function updateMovie(body){
               if (err) throw err;
               //res.send(rows);
               conn.end();
-              resolve(rows);
+              resolve(rows[0]);
            });
         
         });//connect
