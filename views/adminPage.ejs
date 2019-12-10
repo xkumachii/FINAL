@@ -36,8 +36,14 @@
                         $("#genres").hide();
                     }
                 });
+                
+                $(".removeMovie").on("click", function(event) {
+                    if(confirm("Delete Movie?") == false) {
+                        event.preventDefault();
+                    }
+                })
 
-                });
+            });
         
         </script>
         
@@ -62,6 +68,9 @@
 
         <div id="movies">
             <% movieList.forEach(function(movie){  %>
+                [<a href="/updateMovie?movieId=<%= movie.movieId %>">UPDATE</a>] 
+            [<a onclick="deleteConfirm()" class="removeMovie" href="/deleteMovie?movieId=<%= movie.movieId %>">DELETE</a>] 
+
                 <%= movie.movieName %> <br> <%= movie.description %> <br><br>
             <% }) %>
         </div>

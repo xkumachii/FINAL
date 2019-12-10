@@ -35,6 +35,44 @@ app.get("/", async function(req, res){
 app.get("/login", function(req, res){
    res.render("login");
 });
+//UPDATE MOVIES
+app.get("/updateMovie", async function(req, res){
+
+  let movieInfo = await getMovieInfo(req.query.movieId); 
+  console.log(movieInfo);
+  res.render("updateMovie", {"movieInfo":movieInfo});
+  
+});
+
+app.post("/updateMovie", async function(req, res){
+  let rows = await updateMovie(req.body);
+  
+  let movieInfo = req.body;
+  console.log("rows" + rows);
+  let message = "Movie WAS NOT updated!";
+  if (rows.affectedRows > 0) {
+      message= "Movie successfully updated!";
+  }
+  res.render("updateMovie", {"message":message, "movieInfo":movieInfo});
+    
+});
+//UPDATEMOVIES
+//DELETE MOVIE
+app.get("/deleteMovie", async function(req, res){
+ let rows = await deleteMovie(req.query.movieId);
+ console.log(rows);
+  let message = "Movie WAS NOT deleted!";
+  if (rows.affectedRows > 0) {
+    message= "Movie successfully deleted!";
+  }    
+    
+    let movieList = await getMovieList();  
+    let genreList = await getGenreList();
+    let directorList = await getDirectorList();
+
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+});
+//DELETE MOVIE
 
 //adding new movies
 app.get("/newMovie", function(req, res){
@@ -157,6 +195,90 @@ app.get("/dbTest", function(req, res){
 
 
 //Functions
+//UPDATE MOVIES
+function getMovieInfo(movieId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("getMovieInfo!");
+        
+           let sql = `SELECT *
+                      FROM p_movie
+                      WHERE movieId = ?`;
+        
+           conn.query(sql, [movieId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows[0]); //Query returns only ONE record
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function updateMovie(body){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `UPDATE p_movie
+                      SET movieName = ?, 
+                        price  = ?, 
+                        length = ?
+                        imdbRating = ?
+                        description = ?
+                        year = ?
+                        image = ?
+                     WHERE authorId = ?`;
+        
+           let params = [body.movieName, body.price, body.length, body.imdbRating, body.description, body.year, body.image, body.movieId];
+        
+           console.log(sql);
+           
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//UPDATE MOVIES
+//DELETE Movie
+function deleteMovie(movieId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `DELETE FROM p_movie
+                      WHERE movieId = ?`;
+        
+           conn.query(sql, [movieId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//DELETE MOVIE
+
 //ADDMOVIE
 function insertMovie(body){
    
