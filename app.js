@@ -32,8 +32,10 @@ app.get("/admin", async function(req, res){
    console.log("authenticated: ", req.session.authenticated);    
    if (req.session.authenticated) { //if user hasn't authenticated, sending them to login screen
      let movieList = await getMovieList();  
+     let genreList = await getGenreList();
+     
        //console.log(authorList);
-       res.render("adminPage", {"movieList":movieList});  
+       res.render("adminPage", {"movieList":movieList, "genreList":genreList});  
    }  else { 
        res.render("login"); 
    }
@@ -89,6 +91,31 @@ function getMovieList(){
 
                         
         
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//MOVIELIST
+//genreLIST
+function getGenreList(){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+      let sql = `SELECT genreName, genreDescription
+                FROM p_genre  
+                ORDER BY genreId `;
+                
            conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
               //res.send(rows);
