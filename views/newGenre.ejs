@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> New Genre</title>
+        <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body>
+
+        <h1> Adding a Genre </h1>
+        
+
+        <form method="POST">
+        
+            New Genre: <input type="text" name="genreName"><br>    
+            Description <textarea name="genreDescription" cols="50" height="20"></textarea>
+            <br><br>
+            <button>Add Genre</button>
+        
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </form>        
+        <form action="/admin">
+            <button id="goBack">Go Back</button>
+        </form> 
+        
+    </body>
+</html>

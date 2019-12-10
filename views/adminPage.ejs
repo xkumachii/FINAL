@@ -46,10 +46,19 @@
         <form action="/login">
             <button id="logOut">Log Out</button>
         </form>
+        <form action="/newMovie">
+            <button id="newMovie">Add Movie</button>
+        </form>
+        <form action="/newDirector">
+            <button id="newDirector">Add Director</button>
+        </form>  
+        <form action="/newGenre">
+            <button id="newGenre">Add Genre</button>
+        </form>          
         
-        <button id ="movieInfo">Movie Info</button>
-        <button id ="directorInfo">Director Info</button>
-        <button id ="genreInfo">Genre Info</button>
+        <button id ="movieInfo">Movie Info</button><br>
+        <button id ="directorInfo">Director Info</button><br>
+        <button id ="genreInfo">Genre Info</button><br>
 
         <div id="movies">
             <% movieList.forEach(function(movie){  %>
