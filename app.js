@@ -13,21 +13,21 @@ app.use(session({ secret: 'any word', cookie: { maxAge: 60000 }}));
 
 // login username is still admin / password is secret
 
-// this is where the bought movies are stored -- populate movie ids
+// this is where the bought movies are stored -- populate movie objects
 var CART = [];
 
 // welcome screen
 app.get("/", async function(req, res){
     
-    let movieList = await getMovieList();
-
     var movies = [];
     
-    for (var i = 0; i < 6; i++) {
-        movies.push(movieList[i]);
-    }
+    
     
     var movieDisplay = [];
+    
+    for (var i = 0; i < 5; i++) {
+        movieDisplay.push(movies[i]);
+    }
     
    res.render("index", {"movieDisplay": movieDisplay});
 });
