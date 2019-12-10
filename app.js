@@ -19,15 +19,23 @@ var CART = [];
 // welcome screen
 app.get("/", async function(req, res){
     
+    let movieList = await getMovieList();
+
     var movies = [];
     
+    movieList.forEach(function(movie) {
+        movies.push(movie);
+    });
     
+    _.shuffle(movies);
     
     var movieDisplay = [];
     
     for (var i = 0; i < 5; i++) {
         movieDisplay.push(movies[i]);
     }
+    
+    _.shuffle(movieDisplay);
     
    res.render("index", {"movieDisplay": movieDisplay});
 });
