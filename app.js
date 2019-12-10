@@ -56,6 +56,27 @@ app.post("/updateMovie", async function(req, res){
     
 });
 //UPDATEMOVIES
+
+//UPDATE GENRES
+app.get("/updateGenre", async function(req, res){
+  let genreInfo = await getGenreInfo(req.query.genreId); 
+  res.render("updateGenre", {"genreInfo":genreInfo});
+  
+});
+
+app.post("/updateGenre", async function(req, res){
+  let rows = await updateGenre(req.body);
+  
+  let genreInfo = req.body;
+  let message = "Genre WAS NOT updated!";
+  if (rows.affectedRows > 0) {
+      message= "Genre successfully updated!";
+  }
+  res.render("updateGenre", {"message":message, "genreInfo":genreInfo});
+    
+});
+//UPDATE GENRES
+
 //DELETE MOVIE
 app.get("/deleteMovie", async function(req, res){
  let rows = await deleteMovie(req.query.movieId);
@@ -72,6 +93,23 @@ app.get("/deleteMovie", async function(req, res){
     res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
 });
 //DELETE MOVIE
+
+//DELETE Genre
+app.get("/deleteGenre", async function(req, res){
+ let rows = await deleteGenre(req.query.genreId);
+ console.log(rows);
+  let message = "Genre WAS NOT deleted!";
+  if (rows.affectedRows > 0) {
+    message= "Genre successfully deleted!";
+  }    
+    
+    let movieList = await getMovieList();  
+    let genreList = await getGenreList();
+    let directorList = await getDirectorList();
+
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+});
+//DELETE genre
 
 //adding new movies
 app.get("/newMovie", function(req, res){
@@ -253,6 +291,61 @@ function updateMovie(body){
     });//promise 
 }
 //UPDATE MOVIES
+
+//UPDATE GENRES
+function getGenreInfo(genreId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+
+           let sql = `SELECT *
+                      FROM p_genre
+                      WHERE genreId = ?`;
+         
+           conn.query(sql, [genreId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows[0]); //Query returns only ONE record
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function updateGenre(body){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `UPDATE p_genre
+                      SET genreName = ?, 
+                  genreDescription  = ?
+                     WHERE genreId = ?`;
+        
+           let params = [body.genreName, body.genreDescription, body.genreId];
+        
+           console.log(sql);
+           
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//UPDATE Genre
+
 //DELETE Movie
 function deleteMovie(movieId){
    
@@ -277,6 +370,31 @@ function deleteMovie(movieId){
     });//promise 
 }
 //DELETE MOVIE
+
+//DELETE Genre
+function deleteGenre(genreId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `DELETE FROM p_genre
+                      WHERE genreId = ?`;
+        
+           conn.query(sql, [genreId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//DELETE Genre
 
 //ADDMOVIE
 function insertMovie(body){
@@ -392,7 +510,7 @@ function getGenreList(){
            if (err) throw err;
            console.log("Connected!");
         
-      let sql = `SELECT genreName, genreDescription
+      let sql = `SELECT genreName, genreDescription, genreId
                 FROM p_genre  
                 ORDER BY genreId `;
                 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Update Genre </title>
+        <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body>
+
+        <h1> Updating Genre </h1>
+        
+
+        <form method="POST">
+        
+            Genre: <input type="text" name="genreName"
+                        value="<%= genreInfo.genreName %>"><br>    
+            Description: <input type="text" name="genreDescription"
+                        value="<%= genreInfo.genreDescription %>"><br> 
+
+                    
+            <input type="hidden" name="genreId" value="<%= genreInfo.genreId %>"> 
+            
+            <br><br>
+            <button>Update Genre</button>
+        
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </form>        
+
+        
+    </body>
+</html>
