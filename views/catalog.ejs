@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Admin</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    </head>
+    <body>
+        
+        <script>
+            $(document).ready( function() {
+                $("#movies").hide();
+                $("#directors").hide();
+                $("#genres").hide();
+                
+                $("#movieInfo").on("click", function() {
+                    if($("#movies").is(":hidden")) {
+                        $("#movies").show();
+                    } else {
+                        $("#movies").hide();
+                    }
+                });
+                    
+                $("#directorInfo").on("click", function() {
+                    if($("#directors").is(":hidden")) {
+                        $("#directors").show();
+                    } else {
+                        $("#directors").hide();
+                    }
+                });
+                    
+                $("#genreInfo").on("click", function() {
+                    if($("#genres").is(":hidden")) {
+                        $("#genres").show();
+                    } else {
+                        $("#genres").hide();
+                    }
+                });
+
+                });
+        
+        </script>
+        
+        <h1> Admin Section </h1>
+
+        <form action="/login">
+            <button id="logOut">Log Out</button>
+        </form>
+        
+        <button id ="movieInfo">Movie Info</button>
+        <button id ="directorInfo">Director Info</button>
+        <button id ="genreInfo">Genre Info</button>
+
+        <div id="movies">
+            <% movieList.forEach(function(movie){  %>
+                <%= movie.movieName %> <br> <%= movie.description %> <br><br>
+            <% }) %>
+        </div>
+        
+        <div id="directors">
+            <% directorList.forEach(function(director){  %>
+                <%= director.firstName %> <%= director.lastName %> <br>
+            <% }) %>
+        </div>
+        
+        <div id="genres">
+            <% genreList.forEach(function(genre){  %>
+                <%= genre.genreName %> <br> <%= genre.genreDescription %> <br><br>
+            <% }) %>
+        </div>
+        
+        
+        
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Shopping Cart </title>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+                $(document).ready(function() {
+                
+                
+                    $("#loginBtn").on("click", function(){
+                        //alert("works!");
+                        $.ajax({
+                              method: "post",
+                                 url: "/loginProcess",
+                            dataType: "json",
+                                data: { "username":$("#username").val(),
+                                        "password":$("#password").val() },
+                             success: function(result,status) {
+                                //alert(result);
+                                if (!result) {
+                                    
+                                    alert("Wrong credentials!");
+                                } else {
+                                    location.href = "/admin"; //redirects to admin route
+                                    
+                                }
+                            }
+                            
+                        });//ajax
+                        
+                    });//click
+                
+                }); //document.ready
+        
+        </script>
+        
+    </head>
+    <body>
+        
+        <h1> Shopping Cart </h1>
+        
+       
+        
+    </body>
+</html>
