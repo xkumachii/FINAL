@@ -33,9 +33,10 @@ app.get("/admin", async function(req, res){
    if (req.session.authenticated) { //if user hasn't authenticated, sending them to login screen
      let movieList = await getMovieList();  
      let genreList = await getGenreList();
+     let directorList = await getDirectorList();
      
        //console.log(authorList);
-       res.render("adminPage", {"movieList":movieList, "genreList":genreList});  
+       res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
    }  else { 
        res.render("login"); 
    }
@@ -126,7 +127,32 @@ function getGenreList(){
         });//connect
     });//promise 
 }
-//MOVIELIST
+//GENRELIST
+//DIRECTORLIST
+function getDirectorList(){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+      let sql = `SELECT firstName, lastName
+                FROM p_director 
+                ORDER BY directorId `;
+                
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//DIRECTORLIST
 
 
 
