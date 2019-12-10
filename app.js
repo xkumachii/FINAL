@@ -2,7 +2,7 @@ const express = require("express");
 const mysql   = require("mysql");
 const sha256 = require("sha256");
 const session = require('express-session');
-
+const _ = require('underscore');
 
 const app = express();
 app.set("view engine", "ejs");
@@ -13,11 +13,23 @@ app.use(session({ secret: 'any word', cookie: { maxAge: 60000 }}));
 
 // login username is still admin / password is secret
 
-// this is where the movies are stored -- populate movie ids
+// this is where the bought movies are stored -- populate movie ids
 var CART = [];
 
-app.get("/", function(req, res){
-   res.render("index");
+// welcome screen
+app.get("/", async function(req, res){
+    
+    let movieList = await getMovieList();
+
+    var movies = [];
+    
+    for (var i = 0; i < 6; i++) {
+        movies.push(movieList[i]);
+    }
+    
+    var movieDisplay = [];
+    
+   res.render("index", {"movieDisplay": movieDisplay});
 });
 
 app.get("/login", function(req, res){
@@ -77,6 +89,7 @@ app.post("/newMovie", async function(req, res){
     
 });
 //adding new movies
+
 //adding new Directors
 app.get("/newDirector", function(req, res){
    res.render("newDirector");
@@ -92,10 +105,12 @@ app.post("/newDirector", async function(req, res){
     
 });
 //adding new Directors
+
 //adding new Genre
 app.get("/newGenre", function(req, res){
    res.render("newGenre");
 });
+
 app.post("/newGenre", async function(req, res){
   let rows = await insertGenre(req.body);
   console.log(rows);
@@ -118,7 +133,8 @@ app.post("/loginProcess", function(req, res) {
     }
 });
 
-app.get("/cart", function(req, res){
+app.get("/cart", async function(req, res){
+    
    res.render("cart", {"cart": CART});
 });
     
@@ -126,10 +142,12 @@ app.get("/about", function(req, res){
    res.send("buy movies and stuff");
 });
 
-// app.get("/catalog", function(req, res){
-//     res.render("cart", {"cart": CART});
-//   res.send("buy movies and stuff");
-// });
+app.get("/catalog", async function(req, res){
+    let movieList = await getMovieList();  
+    let genreList = await getGenreList();
+    let directorList = await getDirectorList();
+    res.render("catalog", {"cart": CART, "movieList": movieList, "genreList": genreList, "directorList": directorList});
+});
     
 
 app.get("/admin", async function(req, res){
@@ -415,6 +433,31 @@ function getDirectorList(){
     });//promise 
 }
 //DIRECTORLIST
+
+// function getMovies(){
+   
+//   let conn = dbConnection();
+    
+//     return new Promise(function(resolve, reject){
+//         conn.connect(function(err) {
+//           if (err) throw err;
+//           console.log("Connected!");
+        
+//       let sql = `SELECT firstName, lastName
+//                 FROM p_director 
+//                 ORDER BY directorId `;
+                
+//           conn.query(sql, function (err, rows, fields) {
+//               if (err) throw err;
+//               //res.send(rows);
+//               conn.end();
+//               resolve(rows);
+//           });
+        
+//         });//connect
+//     });//promise 
+// }
+
 
 
 
