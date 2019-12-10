@@ -16,7 +16,29 @@ app.use(session({ secret: 'any word', cookie: { maxAge: 60000 }}))
 app.get("/login", function(req, res){
    res.render("login");
 });
+//UPDATE MOVIES
+app.get("/updateMovie", async function(req, res){
 
+  let movieInfo = await getMovieInfo(req.query.movieId); 
+  console.log(movieInfo);
+  res.render("updateMovie", {"movieInfo":movieInfo});
+  
+});
+
+app.post("/updateMovie", async function(req, res){
+  let rows = await updateMovie(req.body);
+  
+  let movieInfo = req.body;
+  console.log(rows);
+  //res.send("First name: " + req.body.firstName); //When using the POST method, the form info is stored in req.body
+  let message = "Movie WAS NOT updated!";
+  if (rows.affectedRows > 0) {
+      message= "Movie successfully updated!";
+  }
+  res.render("updateMovie", {"message":message, "movieInfo":movieInfo});
+    
+});
+//UPDATEMOVIES
 //adding new movies
 app.get("/newMovie", function(req, res){
    res.render("newMovie");
@@ -119,6 +141,65 @@ app.get("/dbTest", function(req, res){
 
 
 //Functions
+//UPDATE MOVIES
+function getMovieInfo(movieId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("getMovieInfo!");
+        
+           let sql = `SELECT *
+                      FROM p_movie
+                      WHERE movieId = ?`;
+        
+           conn.query(sql, [movieId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows[0]); //Query returns only ONE record
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function updateMovie(body){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `UPDATE p_movie
+                      SET movieName = ?, 
+                        price  = ?, 
+                        length = ?
+                        imdbRating = ?
+                        description = ?
+                        year = ?
+                        image = ?
+                     WHERE authorId = ?`;
+        
+           let params = [body.movieName, body.price, body.length, body.imdbRating, body.description, body.year, body.image, body.movieId];
+        
+           console.log(sql);
+           
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//UPDATE MOVIES
 //ADDMOVIE
 function insertMovie(body){
    

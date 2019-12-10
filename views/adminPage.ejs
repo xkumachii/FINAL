@@ -62,6 +62,8 @@
 
         <div id="movies">
             <% movieList.forEach(function(movie){  %>
+                [<a href="/updateMovie?movieId=<%= movie.movieId %>">UPDATE</a>] 
+
                 <%= movie.movieName %> <br> <%= movie.description %> <br><br>
             <% }) %>
         </div>

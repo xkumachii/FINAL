@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Update Movie </title>
+        <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body>
+
+        <h1> Updating Movie </h1>
+        
+
+        <form method="POST">
+        
+            Movie Title: <input type="text" name="movieName"
+                        value="<%= movieInfo.movieName %>"><br>    
+            price: <input type="text" name="price"
+                        value="<%= movieInfo.price %>"><br>    
+                    
+            <input type="hidden" name="movieId" value="<%= movieInfo.movieId %>"> 
+            
+            <br><br>
+            <button>Update Movie</button>
+        
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </form>        
+
+        
+    </body>
+</html>
