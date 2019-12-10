@@ -36,8 +36,7 @@ app.post("/updateMovie", async function(req, res){
   let rows = await updateMovie(req.body);
   
   let movieInfo = req.body;
-  console.log(rows);
-  //res.send("First name: " + req.body.firstName); //When using the POST method, the form info is stored in req.body
+  console.log("rows" + rows);
   let message = "Movie WAS NOT updated!";
   if (rows.affectedRows > 0) {
       message= "Movie successfully updated!";
@@ -46,6 +45,23 @@ app.post("/updateMovie", async function(req, res){
     
 });
 //UPDATEMOVIES
+//DELETE MOVIE
+app.get("/deleteMovie", async function(req, res){
+ let rows = await deleteMovie(req.query.movieId);
+ console.log(rows);
+  let message = "Movie WAS NOT deleted!";
+  if (rows.affectedRows > 0) {
+    message= "Movie successfully deleted!";
+  }    
+    
+    let movieList = await getMovieList();  
+    let genreList = await getGenreList();
+    let directorList = await getDirectorList();
+
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+});
+//DELETE MOVIE
+
 //adding new movies
 app.get("/newMovie", function(req, res){
    res.render("newMovie");
@@ -220,6 +236,31 @@ function updateMovie(body){
     });//promise 
 }
 //UPDATE MOVIES
+//DELETE Movie
+function deleteMovie(movieId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `DELETE FROM p_movie
+                      WHERE movieId = ?`;
+        
+           conn.query(sql, [movieId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//DELETE MOVIE
+
 //ADDMOVIE
 function insertMovie(body){
    
