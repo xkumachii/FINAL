@@ -37,9 +37,8 @@ app.get("/login", function(req, res){
 });
 //UPDATE MOVIES
 app.get("/updateMovie", async function(req, res){
-
   let movieInfo = await getMovieInfo(req.query.movieId); 
-  console.log(movieInfo);
+  console.log("Movie Info: "+ movieInfo);
   res.render("updateMovie", {"movieInfo":movieInfo});
   
 });
@@ -48,7 +47,7 @@ app.post("/updateMovie", async function(req, res){
   let rows = await updateMovie(req.body);
   
   let movieInfo = req.body;
-//   console.log("rows" + rows);
+  console.log("rows" + rows);
   let message = "Movie WAS NOT updated!";
   if (rows.affectedRows > 0) {
       message= "Movie successfully updated!";
@@ -208,12 +207,12 @@ function getMovieInfo(movieId){
            let sql = `SELECT *
                       FROM p_movie
                       WHERE movieId = ?`;
-        
+         
            conn.query(sql, [movieId], function (err, rows, fields) {
               if (err) throw err;
               //res.send(rows);
               conn.end();
-              resolve(rows); //Query returns only ONE record
+              resolve(rows[0]); //Query returns only ONE record
            });
         
         });//connect
@@ -229,15 +228,15 @@ function updateMovie(body){
            if (err) throw err;
            console.log("Connected!");
         
-           let sql = `UPDATE p_movie
+           let sql = `UPDATE p_movie 
                       SET movieName = ?, 
-                        price  = ?, 
-                        length = ?
-                        imdbRating = ?
-                        description = ?
-                        year = ?
-                        image = ?
-                     WHERE authorId = ?`;
+                             price  = ?, 
+                             length = ?,
+                         imdbRating = ?,
+                        description = ?,
+                               year = ?,
+                              image = ?
+                     WHERE movieId = ?`;
         
            let params = [body.movieName, body.price, body.length, body.imdbRating, body.description, body.year, body.image, body.movieId];
         
@@ -247,7 +246,7 @@ function updateMovie(body){
               if (err) throw err;
               //res.send(rows);
               conn.end();
-              resolve(rows[0]);
+              resolve(rows);
            });
         
         });//connect
@@ -368,7 +367,7 @@ function getMovieList(){
         conn.connect(function(err) {
            if (err) throw err;
            console.log("Connected!");
-      let sql = `SELECT movieName, description, price, length, imdbRating, year, image
+      let sql = `SELECT movieName, description, price, length, imdbRating, year, image, movieId
                 FROM p_movie  
                 ORDER BY movieId`;
                 
