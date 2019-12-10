@@ -17,6 +17,52 @@ app.get("/login", function(req, res){
    res.render("login");
 });
 
+//adding new movies
+app.get("/newMovie", function(req, res){
+   res.render("newMovie");
+});
+app.post("/newMovie", async function(req, res){
+  let rows = await insertMovie(req.body);
+  console.log(rows);
+  let message = "Movie WAS NOT added to the database!";
+  if (rows.affectedRows > 0) {
+      message= "Movie successfully added!";
+  }
+  res.render("newMovie", {"message":message});
+    
+});
+//adding new movies
+//adding new Directors
+app.get("/newDirector", function(req, res){
+   res.render("newDirector");
+});
+app.post("/newDirector", async function(req, res){
+  let rows = await insertDirector(req.body);
+  console.log(rows);
+  let message = "Director WAS NOT added to the database!";
+  if (rows.affectedRows > 0) {
+      message= "Director successfully added!";
+  }
+  res.render("newDirector", {"message":message});
+    
+});
+//adding new Directors
+//adding new Genre
+app.get("/newGenre", function(req, res){
+   res.render("newGenre");
+});
+app.post("/newGenre", async function(req, res){
+  let rows = await insertGenre(req.body);
+  console.log(rows);
+  let message = "Genre WAS NOT added to the database!";
+  if (rows.affectedRows > 0) {
+      message= "Genre successfully added!";
+  }
+  res.render("newGenre", {"message":message});
+    
+});
+//adding new Genre
+
 app.post("/loginProcess", function(req, res) {
     
     if ( req.body.username == "admin" && sha256(req.body.password) == "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b") {
@@ -73,10 +119,8 @@ app.get("/dbTest", function(req, res){
 
 
 //Functions
-
-
-//MOVIELIST
-function getMovieList(){
+//ADDMOVIE
+function insertMovie(body){
    
    let conn = dbConnection();
     
@@ -85,13 +129,89 @@ function getMovieList(){
            if (err) throw err;
            console.log("Connected!");
         
-      let sql = `SELECT movieName, description, firstName, lastName, genreName, ratedName, image
-                FROM p_movie a, p_director b, p_genre c, p_rated d 
-                WHERE a.directorId = b.directorId and a.genreId = c.genreId and a.ratedId = d.ratedId`;
-
-
-                        
+           let sql = `INSERT INTO p_movie
+                        (movieName, price, length, imdbRating, description, year, image)
+                         VALUES (?,?,?,?,?,?,?)`;
         
+           let params = [body.movieName, body.price, body.length, body.imdbRating, body.description, body.year, body.image];
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//ADDMOVIE
+//ADD Director
+function insertDirector(body){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `INSERT INTO p_director
+                        (firstName, lastName)
+                         VALUES (?,?)`;
+        
+           let params = [body.firstName, body.lastName];
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//ADD Director
+//ADD Genre
+function insertGenre(body){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `INSERT INTO p_genre
+                        (genreName, genreDescription)
+                         VALUES (?,?)`;
+        
+           let params = [body.genreName, body.genreDescription];
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//ADD Genre
+
+//MOVIELIST
+function getMovieList(){
+   let conn = dbConnection();
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+      let sql = `SELECT movieName, description, price, length, imdbRating, year, image
+                FROM p_movie  
+                ORDER BY movieId`;
+                
            conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
               //res.send(rows);

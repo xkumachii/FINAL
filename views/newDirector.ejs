@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> New Director</title>
+        <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body>
+
+        <h1> Adding a Director </h1>
+        
+
+        <form method="POST">
+        
+            First Name: <input type="text" name="firstName"><br>    
+            Last Name: <input type="text" name="lastName"><br>    
+    
+            <br><br>
+            <button>Add Director</button>
+        
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </form>   
+        <form action="/admin">
+            <button id="goBack">Go Back</button>
+        </form> 
+
+        
+    </body>
+</html>
