@@ -124,12 +124,20 @@ app.get("/deleteMovie", async function(req, res){
      var avgPrice = 0;
      var totalDirectors = 0;
      var totalGenres = 0;
+     var movieMin = 2025, movieMax = 0;
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
         avgPrice += movie.price;
+        
+        if(movie.year > movieMax) {
+            movieMax = movie.year;
+        }
+        if(movie.year < movieMin) {
+            movieMin = movie.year;
+        }
     })
     
     directorList.forEach(function(director){ 
@@ -143,7 +151,7 @@ app.get("/deleteMovie", async function(req, res){
     avgLength = avgLength / totalMovies;
     avgPrice = avgPrice / totalMovies;
 
-    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres, "movieMax":movieMax, "movieMin":movieMin});  
 });
 //DELETE MOVIE
 
@@ -166,12 +174,20 @@ app.get("/deleteGenre", async function(req, res){
      var avgPrice = 0;
      var totalDirectors = 0;
      var totalGenres = 0;
+     var movieMin = 2025, movieMax = 0;
+
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
         avgPrice += movie.price;
+        if(movie.year > movieMax) {
+            movieMax = movie.year;
+        }
+        if(movie.year < movieMin) {
+            movieMin = movie.year;
+        }
     })
     
     directorList.forEach(function(director){ 
@@ -185,7 +201,7 @@ app.get("/deleteGenre", async function(req, res){
     avgLength = avgLength / totalMovies;
     avgPrice = avgPrice / totalMovies;
 
-    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres,"movieMax":movieMax, "movieMin":movieMin});  
 });
 //DELETE genre
 
@@ -208,12 +224,19 @@ app.get("/deleteDirector", async function(req, res){
      var avgPrice = 0;
      var totalDirectors = 0;
      var totalGenres = 0;
+    var movieMin = 2025, movieMax = 0;
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
         avgPrice += movie.price;
+        if(movie.year > movieMax) {
+            movieMax = movie.year;
+        }
+        if(movie.year < movieMin) {
+            movieMin = movie.year;
+        }
     })
     
     directorList.forEach(function(director){ 
@@ -227,7 +250,7 @@ app.get("/deleteDirector", async function(req, res){
     avgLength = avgLength / totalMovies;
     avgPrice = avgPrice / totalMovies;
 
-    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres,  "movieMax":movieMax, "movieMin":movieMin});  
 });
 //DELETE Director
 
@@ -338,12 +361,20 @@ app.get("/admin", async function(req, res){
      var avgPrice = 0;
      var totalDirectors = 0;
      var totalGenres = 0;
+     var movieMin = 2025, movieMax = 0;
+
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
         avgPrice += movie.price;
+        if(movie.year > movieMax) {
+            movieMax = movie.year;
+        }
+        if(movie.year < movieMin) {
+            movieMin = movie.year;
+        }
     })
     
     directorList.forEach(function(director){ 
@@ -358,7 +389,7 @@ app.get("/admin", async function(req, res){
     avgPrice = avgPrice / totalMovies;
 
        //console.log(authorList);
-       res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
+       res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres,  "movieMax":movieMax, "movieMin":movieMin});  
    }  else { 
        res.render("login"); 
    }
