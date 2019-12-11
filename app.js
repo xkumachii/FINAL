@@ -228,7 +228,25 @@ app.get("/catalog", async function(req, res){
     let movieList = await getMovieList();  
     let genreList = await getGenreList();
     let directorList = await getDirectorList();
+    
+    
+    
+    
+    
     res.render("catalog", {"cart": CART, "movieList": movieList, "genreList": genreList, "directorList": directorList});
+});
+
+app.get("/results", async function(req, res){
+    
+    
+    let movieList = await getMovieList();  
+    let genreList = await getGenreList();
+    let directorList = await getDirectorList();
+    
+    
+    let results = await getMovieResults(req.query);
+
+    res.render("catalog", {"cart": CART, "results": results});
 });
     
 
@@ -246,8 +264,9 @@ app.get("/admin", async function(req, res){
    }
 });
 app.get("/everything", async function(req, res){
-    let movieList = await getMovieList();  
-    res.render("everything", {"movieList":movieList});  
+    let movieList = await getMovieList();
+    
+    res.render("everything", {"movieList":movieList, cart: CART});  
 
 });
 
@@ -707,29 +726,36 @@ function getDirectorList(){
 
 
 function getMovieResults(query) {
-    let keyword = query.keyword;
+    let title = query.title;
     
-    let director = query.director.split(" ");
+    let director = query.director;
     
-    // let sex = query.sex;
+    let ageRating = query.ageRating;
     
-    // let genre = query.genre;
+    let genre = query.genre;
     
-    // let mode = query.order;
+    let order = query.order;
     
-   let conn = dbConnection();
+  let conn = dbConnection();
     return new Promise(function(resolve, reject){
         conn.connect(function(err) {
-           if (err) throw err;
-           console.log("Connected!");
+          if (err) throw err;
+          console.log("Connected!");
+           
+                //  let sql = `SELECT movieName, description, price, length, imdbRating, year, image, movieId
+                // FROM p_movie
+                // ORDER BY movieId`;
+                
+              let params = [];
+                
               let sql = `SELECT movieName, description, price, length, imdbRating, year, image, movieId
                         FROM p_movie  
                         ORDER BY movieId
                         WHERE
-                        movieName LIKE '%${keyword}%'`;
+                        movieName LIKE '%${title}%'`;
                 
         //           if (query.genre) { //user selected a category
-        //       sql += ` AND genre = '${category}'`; //To prevent SQL injection, SQL statement shouldn't have any quotes.
+        //       sql += ` AND genre = '${category}'`;
         //   }
         //   params.push(query.category);    
            
@@ -743,13 +769,39 @@ function getMovieResults(query) {
         //       sql += ` AND lastName = '${author[1]}'`;
         //   }
         //   params.push(query.author); 
+        
+        //   if (query.ageRating) {
+        //       sql += ` AND ratedId = '${ageRating}'`;
+        //   }
+        //   params.push(query.ageRating);
+          
+          if (query.order) {
+              switch(query.order) {
+                  case "price_asc":
+                      sql += ` AND ORDER BY price`;
+                      break;
+                  case "price_desc":
+                      sql += ` AND ORDER BY price DESC`;
+                      break;
+                  case "imdb_asc":
+                      sql += ` AND ORDER BY imdbRating`;
+                      break;
+                  case "imdb_desc":
+                      sql += ` AND ORDER BY imdbRating DESC`;
+                      break;
+                  default:
+                      break;
                 
-           conn.query(sql, function (err, rows, fields) {
+              }
+          }
+          params.push(query.order);  
+                
+          conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
               //res.send(rows);
               conn.end();
               resolve(rows);
-           });
+          });
         
         });//connect
     });//promise 

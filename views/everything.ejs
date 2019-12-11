@@ -1,13 +1,49 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Admin</title>
+        <title>Collection</title>
         <link href='https://fonts.googleapis.com/css?family=Hind' rel='stylesheet'>
         <link rel="stylesheet" href="/css/styles.css" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        
+        <script>
+            $(document).ready( function() {
+                //  cart.forEach(function(item){  
+                //      console.log(item );
+                //  })
+                
+                
+                
+                $(".buy").on("click", function() {
+                    addToCart($(".buy").val());
+                    // if (cart.includes(/*some movie object */)) {
+                    //     alert("Movie is already in your cart.");
+                    // } else {
+                    //     alert("Added to cart!");
+                    // }
+                    // alert("Added to cart");
+                });
+                
+                function addToCart(id) {
+                    var i = id;
+                    
+                //      if (temp.includes(id)) { 
+                //         alert("Item is already in your cart.")
+                //     } else {
+                //         //  cart.push(id)   
+                //         alert("Nigga")
+                //     }
+                }
+                
+            });
+                
+        </script>
+        
+        
+        
     </head>
     <body>
         
@@ -31,9 +67,26 @@
         
         <div id="movies">
             <% movieList.forEach(function(movie){  %>
-                <strong> <%= movie.movieName %></strong> $<%=movie.price %>, <%=movie.year %>, <%=movie.imdbRating %>/10
-                <br> <%= movie.description %> <br><br>
-                
+            
+                    <div class="d-flex justify-content-left">
+                        <div>
+                            <img src="<%=movie.image %>" width = "200" alt="<%=movie.movieName %>">
+                        </div>
+                        <div>
+                            <strong> <%= movie.movieName %></strong> 
+                            <br>
+                            $<%=movie.price %> 
+                            <br>
+                            Released <%=movie.year %> 
+                            <br>
+                            <%=movie.imdbRating %>/10
+                            <br> <%= movie.description %> <br><br>
+                            <button class="buy" value="<%=movie.movieId %>">Add to cart</button>
+
+                        </div>
+                    </div>            
+                    
+                    <br>
             <% }) %>
         </div>
         
