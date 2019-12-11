@@ -51,6 +51,11 @@
                         event.preventDefault();
                     }
                 })
+                $(".removeDirector").on("click", function(event) {
+                    if(confirm("Delete Director?") == false) {
+                        event.preventDefault();
+                    }
+                })
 
             });
         
@@ -87,6 +92,8 @@
         
         <div id="directors">
             <% directorList.forEach(function(director){  %>
+                [<a href="/updateDirector?directorId=<%= director.directorId %>">UPDATE</a>] 
+                [<a onclick="deleteConfirm()" class="removeDirector" href="/deleteDirector?directorId=<%= director.directorId %>">DELETE</a>]
                 <%= director.firstName %> <%= director.lastName %> <br>
             <% }) %>
         </div>
