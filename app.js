@@ -85,6 +85,26 @@ app.post("/updateGenre", async function(req, res){
 });
 //UPDATE GENRES
 
+//UPDATE DIRECTORS
+app.get("/updateDirector", async function(req, res){
+  let directorInfo = await getDirectorInfo(req.query.directorId); 
+  res.render("updateDirector", {"directorInfo":directorInfo});
+  
+});
+
+app.post("/updateDirector", async function(req, res){
+  let rows = await updateDirector(req.body);
+  
+  let directorInfo = req.body;
+  let message = "Director WAS NOT updated!";
+  if (rows.affectedRows > 0) {
+      message= "Director successfully updated!";
+  }
+  res.render("updateDirector", {"message":message, "directorInfo":directorInfo});
+    
+});
+//UPDATE DIRECTORS
+
 //DELETE MOVIE
 app.get("/deleteMovie", async function(req, res){
  let rows = await deleteMovie(req.query.movieId);
@@ -118,6 +138,23 @@ app.get("/deleteGenre", async function(req, res){
     res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
 });
 //DELETE genre
+
+//DELETE Director
+app.get("/deleteDirector", async function(req, res){
+ let rows = await deleteDirector(req.query.directorId);
+ console.log(rows);
+  let message = "Director WAS NOT deleted!";
+  if (rows.affectedRows > 0) {
+    message= "Director successfully deleted!";
+  }    
+    
+    let movieList = await getMovieList();  
+    let genreList = await getGenreList();
+    let directorList = await getDirectorList();
+
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+});
+//DELETE Director
 
 //adding new movies
 app.get("/newMovie", function(req, res){
@@ -360,6 +397,60 @@ function updateGenre(body){
 }
 //UPDATE Genre
 
+//UPDATE DIRECTOR
+function getDirectorInfo(directorId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+
+           let sql = `SELECT *
+                      FROM p_director
+                      WHERE directorId = ?`;
+         
+           conn.query(sql, [directorId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows[0]); //Query returns only ONE record
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function updateDirector(body){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `UPDATE p_director
+                      SET firstName = ?, 
+                          lastName  = ?
+                     WHERE directorId = ?`;
+        
+           let params = [body.firstName, body.lastName, body.directorId];
+        
+           console.log(sql);
+           
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//UPDATE Genre
+
 //DELETE Movie
 function deleteMovie(movieId){
    
@@ -408,7 +499,32 @@ function deleteGenre(genreId){
         });//connect
     });//promise 
 }
-//DELETE Genre
+//DELETE director
+
+//DELETE director
+function deleteDirector(directorId){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `DELETE FROM p_director
+                      WHERE directorId = ?`;
+        
+           conn.query(sql, [directorId], function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+//DELETE director
 
 //ADDMOVIE
 function insertMovie(body){
@@ -549,7 +665,7 @@ function getDirectorList(){
            if (err) throw err;
            console.log("Connected!");
         
-      let sql = `SELECT firstName, lastName
+      let sql = `SELECT firstName, lastName, directorId
                 FROM p_director 
                 ORDER BY directorId `;
                 
