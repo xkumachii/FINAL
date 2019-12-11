@@ -208,6 +208,12 @@ app.get("/admin", async function(req, res){
        res.render("login"); 
    }
 });
+app.get("/everything", async function(req, res){
+    let movieList = await getMovieList();  
+    res.render("everything", {"movieList":movieList});  
+
+});
+
 //==========================================================
 //============ TEST CONNECTION TO DATABASE =================
 //==========================================================
@@ -494,7 +500,7 @@ function getMovieList(){
            if (err) throw err;
            console.log("Connected!");
       let sql = `SELECT movieName, description, price, length, imdbRating, year, image, movieId
-                FROM p_movie  
+                FROM p_movie
                 ORDER BY movieId`;
                 
            conn.query(sql, function (err, rows, fields) {

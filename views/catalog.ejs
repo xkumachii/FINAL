@@ -18,7 +18,6 @@
                 })
                 
                 
-                
                 $(".buy").on("click", function() {
                     if (cart.includes(/*some movie object */)) {
                         alert("Movie is already in your cart.");
@@ -96,9 +95,9 @@
             <br>
             
             <button id="search">Search</button>
-            
-            <button id="showAll">Show me everything!</button>
-        
+            <form action="/everything">
+                <button id="showAll">Show me everything!</button>
+            </form>
         </div>
         
         <!--
