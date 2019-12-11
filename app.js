@@ -117,6 +117,18 @@ app.get("/deleteMovie", async function(req, res){
     let movieList = await getMovieList();  
     let genreList = await getGenreList();
     let directorList = await getDirectorList();
+    
+     var totalMovies = 0;
+     var avgRating = 0;
+     var avgLength = 0;
+
+    movieList.forEach(function(movie){ 
+        totalMovies++;
+        avgRating += movie.imdbRating;
+        avgLength += movie.length;
+    })
+    avgRating = avgRating / totalMovies;
+    avgLength = avgLength / totalMovies;
 
     res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
 });
@@ -134,6 +146,18 @@ app.get("/deleteGenre", async function(req, res){
     let movieList = await getMovieList();  
     let genreList = await getGenreList();
     let directorList = await getDirectorList();
+    
+     var totalMovies = 0;
+     var avgRating = 0;
+     var avgLength = 0;
+
+    movieList.forEach(function(movie){ 
+        totalMovies++;
+        avgRating += movie.imdbRating;
+        avgLength += movie.length;
+    })
+    avgRating = avgRating / totalMovies;
+    avgLength = avgLength / totalMovies;
 
     res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
 });
@@ -151,6 +175,18 @@ app.get("/deleteDirector", async function(req, res){
     let movieList = await getMovieList();  
     let genreList = await getGenreList();
     let directorList = await getDirectorList();
+    
+     var totalMovies = 0;
+     var avgRating = 0;
+     var avgLength = 0;
+
+    movieList.forEach(function(movie){ 
+        totalMovies++;
+        avgRating += movie.imdbRating;
+        avgLength += movie.length;
+    })
+    avgRating = avgRating / totalMovies;
+    avgLength = avgLength / totalMovies;
 
     res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
 });
