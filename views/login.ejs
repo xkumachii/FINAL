@@ -3,7 +3,12 @@
     <head>
         <title> Admin Login Screen </title>
         
+        <link href='https://fonts.googleapis.com/css?family=Hind' rel='stylesheet'>
+        <link rel="stylesheet" href="/css/styles.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <script>
                 $(document).ready(function() {
                 
@@ -36,15 +41,32 @@
         </script>
         
     </head>
-    <body>
+    <body id = "main">
         
-        <h1> Log In!</h1>
+                <div class="jumbotron jumbotron-fluid">
+            <div class="text-center">
+                <div class="container-fluid">
+                    
+                    <h1>Admin Login</h1>
+                    <br>
+                    <nav class="text-center">
+                        <a href = "/"> home </span> </a>
+                        <a href = "/login"> administration </a>
+                        <a href = "/catalog"> catalog </a>
+                        <a href = "/cart"> cart </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        
+        
 
         
         Username: <input type="text" name="username" id="username" /><br>
 
         Password: <input type="password" id="password">
-        
+        <br>
         <button id="loginBtn">Login!</button>
         
        

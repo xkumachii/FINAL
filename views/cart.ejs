@@ -8,26 +8,35 @@
                 $(document).ready(function() {
                 
                 
-                    $("#loginBtn").on("click", function(){
-                        //alert("works!");
-                        $.ajax({
-                              method: "post",
-                                 url: "/loginProcess",
-                            dataType: "json",
-                                data: { "username":$("#username").val(),
-                                        "password":$("#password").val() },
-                             success: function(result,status) {
-                                //alert(result);
-                                if (!result) {
+                $(".delete").on("click", function() {
+                    if (!confirm("Would you like to remove this movie from your cart?")) {
+                        event.preventDefault(); //prevents default behavior of the links
+                    } else {
+                        // some stuff
+                    }
+                    
+                });
+                
+                    // $("#loginBtn").on("click", function(){
+                    //     //alert("works!");
+                    //     $.ajax({
+                    //           method: "post",
+                    //              url: "/loginProcess",
+                    //         dataType: "json",
+                    //             data: { "username":$("#username").val(),
+                    //                     "password":$("#password").val() },
+                    //          success: function(result,status) {
+                    //             //alert(result);
+                    //             if (!result) {
                                     
-                                    alert("Wrong credentials!");
-                                } else {
-                                    location.href = "/admin"; //redirects to admin route
+                    //                 alert("Wrong credentials!");
+                    //             } else {
+                    //                 location.href = "/admin"; //redirects to admin route
                                     
-                                }
-                            }
+                    //             }
+                    //         }
                             
-                        });//ajax
+                    //     });//ajax
                         
                     });//click
                 
