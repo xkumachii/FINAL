@@ -6,3 +6,9 @@
   display: flex;
   margin: auto;
 }
+
+nav a {
+    padding: 5px;
+    color: violet;
+    
+}

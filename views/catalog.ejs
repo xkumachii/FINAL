@@ -3,7 +3,12 @@
     <head>
         <title> Catalog</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        
+        <link href='https://fonts.googleapis.com/css?family=Hind' rel='stylesheet'>
+        <link rel="stylesheet" href="/css/styles.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         
         
         <script>
@@ -11,6 +16,8 @@
                 cart.forEach(function(item) {
                     console.log(item.movieName);
                 })
+                
+                
                 
                 $(".buy").on("click", function() {
                     if (cart.includes(/*some movie object */)) {
@@ -21,6 +28,19 @@
                 });
                 
                 
+                // get genres
+                $("#genre").html("");
+                
+                
+                
+                // get directors
+                $("#director").html("");
+                
+                
+                
+                // get age ratings
+                $("#ageRating").html("");
+                
                 
             });
         </script>
@@ -29,7 +49,57 @@
     <body>
         
         
+        <div class="jumbotron jumbotron-fluid">
+            <div class="text-center">
+                <div class="container-fluid">
+                    
+                    <img src="https://fontmeme.com/permalink/191210/60d5ff0c01cff36fcf24ffa9a2411f14.png" width = "300" alt="Our Catalog" border="0">
+                    <br>
+                    <h3>Here's what's available for you!</h3>
+                    <br>
+                    <nav class="text-center">
+                        <a href = "/"> home </span> </a>
+                        <a href = "/login"> administration </a>
+                        <a href = "/catalog"> catalog </a>
+                        <a href = "/cart"> cart </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
         
+        <div class="text-center">
+            <p>Title:</p>
+            <input type="text" name="title" placeholder="e.g. Toy Story"><br>    
+            
+            <p>Director:</p>
+            <select id="director">
+                
+            </select>
+            
+            <p>Genre:</p>
+            <select id="genre">
+                
+            </select>
+            
+            <p>Age rating:</p>
+            <select id="ageRating">
+                
+            </select>
+            
+            
+            <p>Order by:</p>
+            <input type="radio" name="order" value="price_asc">Price (low to high)<br>
+            <input type="radio" name="order" value="price_desc">Price (high to low)<br>
+            <input type="radio" name="order" value="imdb_asc">IMDB rating (high to low)<br>
+            <input type="radio" name="order" value="imdb_desc">IMDB rating (low to high)<br>
+            
+            <br>
+            
+            <button id="search">Search</button>
+            
+            <button id="showAll">Show me everything!</button>
+        
+        </div>
         
         <!--
         search by name
@@ -44,10 +114,10 @@
         sort by imdb rating descending
         
         
+        -->
         
         
-        
-        
+        <!--
         
         how2display
         

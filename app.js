@@ -584,6 +584,55 @@ function getDirectorList(){
 // }
 
 
+function getMovieResults(query) {
+    let keyword = query.keyword;
+    
+    let director = query.director.split(" ");
+    
+    // let sex = query.sex;
+    
+    // let genre = query.genre;
+    
+    // let mode = query.order;
+    
+   let conn = dbConnection();
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+              let sql = `SELECT movieName, description, price, length, imdbRating, year, image, movieId
+                        FROM p_movie  
+                        ORDER BY movieId
+                        WHERE
+                        movieName LIKE '%${keyword}%'`;
+                
+        //           if (query.genre) { //user selected a category
+        //       sql += ` AND genre = '${category}'`; //To prevent SQL injection, SQL statement shouldn't have any quotes.
+        //   }
+        //   params.push(query.category);    
+           
+        //   if (query.sex) {
+        //       sql += ` AND sex = '${sex}'`; 
+        //   }
+        //   params.push(query.sex);      
+           
+        //   if (query.author) {
+        //       sql += ` AND firstName = '${author[0]}'`;
+        //       sql += ` AND lastName = '${author[1]}'`;
+        //   }
+        //   params.push(query.author); 
+                
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+
 
 
 
