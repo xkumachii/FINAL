@@ -257,8 +257,20 @@ app.get("/admin", async function(req, res){
      let genreList = await getGenreList();
      let directorList = await getDirectorList();
      
+     var totalMovies = 0;
+     var avgRating = 0;
+     var avgLength = 0;
+
+    movieList.forEach(function(movie){ 
+        totalMovies++;
+        avgRating += movie.imdbRating;
+        avgLength += movie.length;
+    })
+    avgRating = avgRating / totalMovies;
+    avgLength = avgLength / totalMovies;
+
        //console.log(authorList);
-       res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+       res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating});  
    }  else { 
        res.render("login"); 
    }
@@ -727,6 +739,7 @@ function getDirectorList(){
 
 function getMovieResults(query) {
     let title = query.title;
+    console.log("Title " + query.title)
     
     let director = query.director;
     
@@ -750,7 +763,6 @@ function getMovieResults(query) {
                 
               let sql = `SELECT movieName, description, price, length, imdbRating, year, image, movieId
                         FROM p_movie  
-                        ORDER BY movieId
                         WHERE
                         movieName LIKE '%${title}%'`;
                 

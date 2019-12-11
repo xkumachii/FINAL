@@ -16,12 +16,21 @@
                 $("#movies").hide();
                 $("#directors").hide();
                 $("#genres").hide();
+                $("#records").hide();
+
                 
                 $("#movieInfo").on("click", function() {
                     if($("#movies").is(":hidden")) {
                         $("#movies").show();
                     } else {
                         $("#movies").hide();
+                    }
+                });
+                $("#recordsInfo").on("click", function() {
+                    if($("#records").is(":hidden")) {
+                        $("#records").show();
+                    } else {
+                        $("#records").hide();
                     }
                 });
                     
@@ -82,11 +91,13 @@
         </form>  
         <form action="/newGenre">
             <button id="newGenre">Add Genre</button>
-        </form>          
+        </form> 
         <br>
         <button id ="movieInfo">Movie Info</button><br>
         <button id ="directorInfo">Director Info</button><br>
-        <button id ="genreInfo">Genre Info</button><br>
+        <button id ="genreInfo">Genre Info</button><br><br>
+        <button id ="recordsInfo">Records</button><br>
+
 
         <div id="movies">
             <% movieList.forEach(function(movie){  %>
@@ -114,6 +125,12 @@
             <% }) %>
         </div>
         
+        <div id="records">
+            Total Movies: <%= totalMovies%> <br>
+            Average Movie Length: <%= avgLength %> minutes <br>
+            Average Movie Rating: <%= avgRating %> /10 <br>
+            
+        </div>
         
         
     </body>
