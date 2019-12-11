@@ -74,9 +74,10 @@
         <div id="movies">
             <% movieList.forEach(function(movie){  %>
                 [<a href="/updateMovie?movieId=<%= movie.movieId %>">UPDATE</a>] 
+               <strong> <%= movie.movieName %></strong>   $<%=movie.price %>, <%=movie.year %>, <%=movie.imdbRating %>/10
                 [<a onclick="deleteConfirm()" class="removeMovie" href="/deleteMovie?movieId=<%= movie.movieId %>">DELETE</a>] 
-
-                <%= movie.movieName %> <br> <%= movie.description %> <br><br>
+                <br> <%= movie.description %> <br><br>
+                
             <% }) %>
         </div>
         
