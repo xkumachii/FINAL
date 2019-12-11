@@ -11,6 +11,24 @@
     </head>
     <body>
         
+        <div class="jumbotron jumbotron-fluid">
+            <div class="text-center">
+                <div class="container-fluid">
+                    
+                    <img src="https://fontmeme.com/permalink/191211/4aabe8d316423af06391b0a7c0798efe.png" width="437" alt="otterflix" border="0">        
+                    <h3>We are continually updating our catalog to suit your every want!</h3>
+                    <br>
+                    <nav class="text-center">
+                        <a href = "/"> home </span> </a>
+                        <a href = "/login"> administration </a>
+                        <a href = "/catalog"> catalog </a>
+                        <a href = "/everything"> collection </a>
+                        <a href = "/cart"> cart </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
         <div id="movies">
             <% movieList.forEach(function(movie){  %>
                <strong> <%= movie.movieName %></strong> $<%=movie.price %>, <%=movie.year %>, <%=movie.imdbRating %>/10
