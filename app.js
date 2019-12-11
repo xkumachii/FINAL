@@ -121,16 +121,29 @@ app.get("/deleteMovie", async function(req, res){
      var totalMovies = 0;
      var avgRating = 0;
      var avgLength = 0;
+     var avgPrice = 0;
+     var totalDirectors = 0;
+     var totalGenres = 0;
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
+        avgPrice += movie.price;
     })
+    
+    directorList.forEach(function(director){ 
+        totalDirectors++;
+    })
+    genreList.forEach(function(genre){ 
+        totalGenres++;
+    })
+    
     avgRating = avgRating / totalMovies;
     avgLength = avgLength / totalMovies;
+    avgPrice = avgPrice / totalMovies;
 
-    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
 });
 //DELETE MOVIE
 
@@ -150,16 +163,29 @@ app.get("/deleteGenre", async function(req, res){
      var totalMovies = 0;
      var avgRating = 0;
      var avgLength = 0;
+     var avgPrice = 0;
+     var totalDirectors = 0;
+     var totalGenres = 0;
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
+        avgPrice += movie.price;
     })
+    
+    directorList.forEach(function(director){ 
+        totalDirectors++;
+    })
+    genreList.forEach(function(genre){ 
+        totalGenres++;
+    })
+    
     avgRating = avgRating / totalMovies;
     avgLength = avgLength / totalMovies;
+    avgPrice = avgPrice / totalMovies;
 
-    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
 });
 //DELETE genre
 
@@ -179,16 +205,29 @@ app.get("/deleteDirector", async function(req, res){
      var totalMovies = 0;
      var avgRating = 0;
      var avgLength = 0;
+     var avgPrice = 0;
+     var totalDirectors = 0;
+     var totalGenres = 0;
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
+        avgPrice += movie.price;
     })
+    
+    directorList.forEach(function(director){ 
+        totalDirectors++;
+    })
+    genreList.forEach(function(genre){ 
+        totalGenres++;
+    })
+    
     avgRating = avgRating / totalMovies;
     avgLength = avgLength / totalMovies;
+    avgPrice = avgPrice / totalMovies;
 
-    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList});  
+    res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
 });
 //DELETE Director
 
@@ -296,17 +335,30 @@ app.get("/admin", async function(req, res){
      var totalMovies = 0;
      var avgRating = 0;
      var avgLength = 0;
+     var avgPrice = 0;
+     var totalDirectors = 0;
+     var totalGenres = 0;
 
     movieList.forEach(function(movie){ 
         totalMovies++;
         avgRating += movie.imdbRating;
         avgLength += movie.length;
+        avgPrice += movie.price;
     })
+    
+    directorList.forEach(function(director){ 
+        totalDirectors++;
+    })
+    genreList.forEach(function(genre){ 
+        totalGenres++;
+    })
+    
     avgRating = avgRating / totalMovies;
     avgLength = avgLength / totalMovies;
+    avgPrice = avgPrice / totalMovies;
 
        //console.log(authorList);
-       res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating});  
+       res.render("adminPage", {"movieList":movieList, "genreList":genreList, "directorList":directorList, "totalMovies":totalMovies, "avgLength":avgLength, "avgRating":avgRating, "avgPrice":avgPrice, "totalDirectors":totalDirectors, "totalGenres":totalGenres});  
    }  else { 
        res.render("login"); 
    }
